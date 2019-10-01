@@ -23,7 +23,7 @@ module.exports = {
     try {
       const post = await Post.findById(req.params.postId)
         .populate("author")
-        .populate("comments");
+        .populate({ path: "comments.author" });
 
       return res.status(200).send({ post });
     } catch (error) {

@@ -6,7 +6,10 @@ const Post = mongoose.model("Post");
 module.exports = {
   async index(req, res) {
     try {
-      const post = await Post.find().sort("-createdAt");
+      const post = await Post.find()
+        .populate("author")
+        .populate({ path: "comments.author" })
+        .sort("-createdAt");
 
       return res.status(200).send({ post });
     } catch (error) {
@@ -18,7 +21,9 @@ module.exports = {
 
   async show(req, res) {
     try {
-      const post = await Post.findById(req.params.postId);
+      const post = await Post.findById(req.params.postId)
+        .populate("author")
+        .populate("comments");
 
       return res.status(200).send({ post });
     } catch (error) {

@@ -19,7 +19,8 @@ module.exports = {
       const post = await Post.findByIdAndUpdate(postId, {
         $push: { comments: { author: userId, comentario: comment } }
       });
-      req.io.emit("post", post);
+      req.io.emit("comentario", post);
+      console.log("Novo comentario");
       return res.status(200).send({ post });
     } catch (error) {
       console.log(error);

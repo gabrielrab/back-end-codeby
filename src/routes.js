@@ -18,6 +18,7 @@ routes.get("/", (req, res) => {
 //Post routes
 routes.get("/post", PostController.index);
 routes.get("/post/:postId", PostController.show);
+routes.get("/post-list/:userId", PostController.list);
 routes.post(
   "/post",
   multer(multerConfigs).single("img"),

@@ -32,6 +32,19 @@ module.exports = {
     }
   },
 
+  async list(req, res) {
+    try {
+      const post = await Post.find({ author: { _id: req.params.userId } })
+        .populate("author")
+        .populate({ path: "comments.author" });
+
+      return res.status(200).send({ post });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send("Post not find");
+    }
+  },
+
   async create(req, res) {
     const { author, place, description } = req.body;
     const image = req.file.location;

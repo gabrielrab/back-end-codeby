@@ -13,8 +13,16 @@ const UserSchema = mongoose.Schema(
       type: String,
       require: true
     },
+    avatar: {
+      type: String,
+      require: true
+    },
     bio: {
       type: String,
+      require: true
+    },
+    following: {
+      type: Number,
       require: true
     }
   },

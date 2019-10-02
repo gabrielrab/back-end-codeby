@@ -42,4 +42,7 @@ routes.post("/login", UserController.authenticate);
 //Comments
 routes.post("/comment/:postId/:userId", CommentController.create);
 
+//Followers
+routes.get("/followers", UserController.followers);
+
 module.exports = routes;

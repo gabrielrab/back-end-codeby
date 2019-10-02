@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const Post = mongoose.model("Post");
+const User = mongoose.model("User");
 
 module.exports = {
   async index(req, res) {
@@ -49,17 +50,21 @@ module.exports = {
     const { author, place, description } = req.body;
     const image = req.file.location;
 
+    const likes = Math.floor(Math.random() * 50);
+
     const postObject = {
       author,
       place,
+      likes,
       description,
       image
     };
 
     try {
       const post = await Post.create(postObject);
+      const user = await User.findById(author);
       console.log("Post created...");
-      req.io.emit("post", post);
+      req.io.emit("post", { post, user });
       return res.status(200).send({ post });
     } catch (error) {
       console.log(error);

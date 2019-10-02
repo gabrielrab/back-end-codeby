@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const Post = mongoose.model("Post");
+const User = mongoose.model("User");
 
 module.exports = {
   async show(req, res) {
@@ -19,7 +20,14 @@ module.exports = {
       const post = await Post.findByIdAndUpdate(postId, {
         $push: { comments: { author: userId, comentario: comment } }
       });
-      req.io.emit("comentario", post);
+
+      const username = await User.findById(userId);
+
+      req.io.emit("comentario", { comment, author: username.user });
+
+      req.io.on("comentario", () => {
+        console.log("new comentario");
+      });
       console.log("Novo comentario");
       return res.status(200).send({ post });
     } catch (error) {
